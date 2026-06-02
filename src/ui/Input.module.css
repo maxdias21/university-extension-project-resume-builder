@@ -1,7 +1,8 @@
 .input {
-  height: 30px;
+  height: 35px;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 0 4px rgba(200, 182, 185, 0.553);
+  box-shadow: 0 0 4px rgba(200, 182, 185, 2);
   outline: none;
+  padding: 10px;
 }

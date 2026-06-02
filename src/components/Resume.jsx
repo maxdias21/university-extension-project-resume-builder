@@ -2,7 +2,7 @@ import styles from './Resume.module.css';
 
 import LeftSide from './LeftSide';
 
-function Resume({ name, email, phone, address, skills }) {
+function Resume({ name, email, phone, address, skills, languages }) {
   return (
     <div class={styles.page}>
       <LeftSide
@@ -11,6 +11,7 @@ function Resume({ name, email, phone, address, skills }) {
         phone={phone}
         address={address}
         skills={skills}
+        languages={languages}
       />
 
       <div class={styles.right}>

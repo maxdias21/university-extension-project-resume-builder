@@ -34,6 +34,20 @@ function App() {
   const [level, setLevel] = useState('1');
   const [showTips, setShowTips] = useState(false);
 
+  const [languages, setLanguages] = useState([]);
+  const [language, setLanguage] = useState('');
+  const [levelLanguage, setLevelLanguage] = useState('1');
+
+  function handleChangeLanguages() {
+    setLanguages((prevState) => [
+      ...prevState,
+      { language: language, level: levelLanguage },
+    ]);
+
+    setLanguage('');
+    setLevelLanguage('1');
+  }
+
   function handleChangeSkills() {
     setSkills((prevState) => [
       ...prevState,
@@ -41,7 +55,7 @@ function App() {
     ]);
 
     setAbility('');
-    setLevel('');
+    setLevel('1');
   }
 
   function handleChange(e, setField) {
@@ -59,72 +73,135 @@ function App() {
     });
   }
 
-  const isActive = ability.length > 4;
+  const isActive = ability.length > 2 && ability.length < 20;
+  const isActiveLanguage = language.length > 2 && language.length < 20;
 
   return (
     <div class={styles.container}>
       <div class={styles.containerDetails}>
-        <input value={name.value} onChange={(e) => handleChange(e, setName)} />
-
         <div class={styles.containerDetails}>
-          <FormField />
-        </div>
-
-        <div class={styles.containerDetails}>
-          <input
+          <FormField
+            id="name"
+            name="Nome"
+            value={name.value}
+            handle={(e) => handleChange(e, setName)}
+          />
+          <FormField
+            id="email"
+            name="Email"
+            value={email.value}
+            handle={(e) => handleChange(e, setEmail)}
+          />
+          <FormField
+            id="phone"
+            name="Telefone"
             value={phone.value}
-            onChange={(e) => handleChange(e, setPhone)}
+            handle={(e) => handleChange(e, setPhone)}
           />
-        </div>
-        <div class={styles.containerDetails}>
-          <input
+          <FormField
+            id="address"
+            name="Endereço"
             value={address.value}
-            onChange={(e) => handleChange(e, setAddress)}
+            handle={(e) => handleChange(e, setAddress)}
           />
-        </div>
+          <hr />
+          <div className={styles.abilityContent}>
+            <FormField
+              id="ability"
+              name="Habilidade"
+              value={ability}
+              handle={(e) => setAbility(e.target.value)}
+            />
 
-        <h2>Habilidades</h2>
-        <div className={styles.abilityContent}>
-          <label>Habilidade</label>
-          <input value={ability} onChange={(e) => setAbility(e.target.value)} />
+            <div className={styles.wrapper}>
+              <select value={level} onChange={(e) => setLevel(e.target.value)}>
+                <option value="1">Iniciante</option>
+                <option value="2">Conhecimento Básico</option>
+                <option value="3">Intermediário</option>
+                <option value="4">Avançado</option>
+                <option value="5">Especialista</option>
+              </select>
 
-          <div className={styles.wrapper}>
-            <select value={level} onChange={(e) => setLevel(e.target.value)}>
-              <option value="1">Iniciante</option>
-              <option value="2">Conhecimento Básico</option>
-              <option value="3">Intermediário</option>
-              <option value="4">Avançado</option>
-              <option value="5">Especialista</option>
-            </select>
+              <p className={styles.tips} onClick={() => setShowTips(!showTips)}>
+                Mostrar dicas ⬇
+              </p>
+            </div>
 
-            <p className={styles.tips} onClick={() => setShowTips(!showTips)}>
-              Mostrar dicas ⬇
-            </p>
+            {showTips && (
+              <div>
+                <ul>
+                  <li>
+                    <strong>Letra maiúscula:</strong> Comece sempre cada
+                    habilidade com a primeira letra maiúscula (ex: React,
+                    Excel).
+                  </li>
+                  <li>
+                    <strong>Foco na vaga:</strong> Coloque apenas as habilidades
+                    que fazem sentido para o cargo que você quer.
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            <button
+              className={`${isActive ? styles.enabled : styles.disabled} ${styles.button}`}
+              onClick={handleChangeSkills}
+            >
+              Adicionar habilidade
+            </button>
           </div>
 
-          {showTips && (
-            <div>
-              <ul>
-                <li>
-                  <strong>Letra maiúscula:</strong> Comece sempre cada
-                  habilidade com a primeira letra maiúscula (ex: React, Excel).
-                </li>
-                <li>
-                  <strong>Foco na vaga:</strong> Coloque apenas as habilidades
-                  que fazem sentido para o cargo que você quer.
-                </li>
-              </ul>
-            </div>
-          )}
+          <hr />
 
-          <button
-            className={`${isActive ? styles.enabled : styles.disabled} ${styles.button}`}
-            onClick={handleChangeSkills}
-          >
-            Adicionar habilidade
-          </button>
+          <div className={styles.abilityContent}>
+            <FormField
+              id="language"
+              name="Idioma"
+              value={language}
+              handle={(e) => setLanguage(e.target.value)}
+            />
+
+            <div className={styles.wrapper}>
+              <select
+                value={levelLanguage}
+                onChange={(e) => setLevelLanguage(e.target.value)}
+              >
+                <option value="1">Iniciante</option>
+                <option value="2">Conhecimento Básico</option>
+                <option value="3">Intermediário</option>
+                <option value="4">Avançado</option>
+                <option value="5">Especialista</option>
+              </select>
+
+              <p className={styles.tips} onClick={() => setShowTips(!showTips)}>
+                Mostrar dicas ⬇
+              </p>
+            </div>
+
+            {showTips && (
+              <div>
+                <ul>
+                  <li>
+                    <strong>Letra maiúscula:</strong> Comece sempre cada
+                    habilidade com a primeira letra maiúscula (ex: React,
+                    Excel).
+                  </li>
+                  <li>
+                    <strong>Foco na vaga:</strong> Coloque apenas as habilidades
+                    que fazem sentido para o cargo que você quer.
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            <button
+              className={`${isActiveLanguage ? styles.enabled : styles.disabled} ${styles.button}`}
+              onClick={handleChangeLanguages}
+            >
+              Adicionar idioma
+            </button>
+          </div>
         </div>
-        <div></div>
       </div>
 
       <div class={styles.containerResume}>
@@ -134,6 +211,7 @@ function App() {
           phone={phone}
           address={address}
           skills={skills}
+          languages={languages}
         />
       </div>
     </div>
@@ -141,4 +219,3 @@ function App() {
 }
 
 export default App;
-const x = 10;

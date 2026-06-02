@@ -12,7 +12,7 @@ import HeaderDetail from './uiLeftSide/HeaderDetail';
 import PersonDetails from './uiLeftSide/PersonDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function LeftSide({ name, email, phone, address, skills }) {
+function LeftSide({ name, email, phone, address, skills, languages }) {
   return (
     <div class={styles.left}>
       <HeaderDetail name={name} />
@@ -36,30 +36,44 @@ function LeftSide({ name, email, phone, address, skills }) {
           skills.map((skill, index) => (
             <div key={index} className={styles.abilities}>
               <p>{skill.ability}</p>
-              <span>
-                <div>
-                  {[1, 2, 3, 4, 5].map((item, index) => (
-                    <FontAwesomeIcon
-                      className={styles.dot}
-                      key={index}
-                      icon={faCircle}
-                      style={{
-                        color:
-                          Number(skill.level) > item ? 'blue' : 'lightgrey',
-                      }}
-                    />
-                  ))}
-                </div>
-              </span>
+
+              <div className={styles.dot}>
+                {[1, 2, 3, 4, 5].map((item, index) => (
+                  <FontAwesomeIcon
+                    key={index}
+                    icon={faCircle}
+                    style={{
+                      color: Number(skill.level) >= item ? 'blue' : 'lightgrey',
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           ))}
       </div>
 
-      <h3>Idiomas</h3>
-      <div class={styles.details}>
-        <div class={styles.text}>
-          <p>D</p>Inglês
-        </div>
+      <div class={styles.wrapper}>
+        <h3>Idiomas</h3>
+        <hr />
+
+        {languages.length > 0 &&
+          languages.map((skill, index) => (
+            <div key={index} className={styles.abilities}>
+              <p>{skill.language}</p>
+
+              <div className={styles.dot}>
+                {[1, 2, 3, 4, 5].map((item, index) => (
+                  <FontAwesomeIcon
+                    key={index}
+                    icon={faCircle}
+                    style={{
+                      color: Number(skill.level) >= item ? 'blue' : 'lightgrey',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
       </div>
       <hr />
     </div>
