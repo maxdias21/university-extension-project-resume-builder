@@ -1,5 +1,5 @@
-function Label({ name }) {
-  return <label>{name}</label>;
+function Label({ id, children }) {
+  return <label htmlFor={id}>{children}</label>;
 }
 
 export default Label;

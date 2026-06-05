@@ -3,11 +3,11 @@ import Label from '../ui/Label';
 
 import styles from './FormField.module.css';
 
-function FormField({ id , name, value, handle  }) {
+function FormField({ id, name, value, handle, placeholder }) {
   return (
     <div className={styles.form}>
-      <Label name={name} />
-      <Input value={value} handle={handle} />
+      <Label id={id}>{placeholder}</Label>
+      <Input id={id} name={name} value={value} handle={handle} />
     </div>
   );
 }

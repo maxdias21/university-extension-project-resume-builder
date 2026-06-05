@@ -27,17 +27,6 @@
   gap: 15px;
 }
 
-.abilities {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-}
-
-.abilities p {
-  word-break: break-word;
-}
-
 .dot {
   font-size: 0.7rem;
   margin-left: auto;

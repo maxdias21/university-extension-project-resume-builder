@@ -10,7 +10,7 @@ import styles from './LeftSide.module.css';
 
 import HeaderDetail from './uiLeftSide/HeaderDetail';
 import PersonDetails from './uiLeftSide/PersonDetails';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InfoItem from './uiLeftSide/InfoItem';
 
 function LeftSide({ name, email, phone, address, skills, languages }) {
   return (
@@ -21,59 +21,39 @@ function LeftSide({ name, email, phone, address, skills, languages }) {
         <hr />
 
         <div className={styles.contentPerson}>
-          <PersonDetails field={name} icon={faUser} />
-          <PersonDetails field={email} icon={faEnvelope} />
-          <PersonDetails field={phone} icon={faPhone} />
-          <PersonDetails field={address} icon={faLocationDot} />
+          {name.value.length > 0 && (
+            <PersonDetails field={name} icon={faUser} />
+          )}
+          {email.value.length > 0 && (
+            <PersonDetails field={email} icon={faEnvelope} />
+          )}
+          {phone.value.length > 0 && (
+            <PersonDetails field={phone} icon={faPhone} />
+          )}
+          {address.value.length > 0 && (
+            <PersonDetails field={address} icon={faLocationDot} />
+          )}
         </div>
       </div>
 
       <div class={styles.wrapper}>
-        <h3>Habilidades</h3>
-        <hr />
-
-        {skills.length > 0 &&
-          skills.map((skill, index) => (
-            <div key={index} className={styles.abilities}>
-              <p>{skill.ability}</p>
-
-              <div className={styles.dot}>
-                {[1, 2, 3, 4, 5].map((item, index) => (
-                  <FontAwesomeIcon
-                    key={index}
-                    icon={faCircle}
-                    style={{
-                      color: Number(skill.level) >= item ? 'blue' : 'lightgrey',
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+        {skills.length > 0 && (
+          <>
+            <h3>Habilidades</h3>
+            <hr />
+            <InfoItem items={skills} />
+          </>
+        )}
       </div>
 
       <div class={styles.wrapper}>
-        <h3>Idiomas</h3>
-        <hr />
-
-        {languages.length > 0 &&
-          languages.map((skill, index) => (
-            <div key={index} className={styles.abilities}>
-              <p>{skill.language}</p>
-
-              <div className={styles.dot}>
-                {[1, 2, 3, 4, 5].map((item, index) => (
-                  <FontAwesomeIcon
-                    key={index}
-                    icon={faCircle}
-                    style={{
-                      color: Number(skill.level) >= item ? 'blue' : 'lightgrey',
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+        {languages.length > 0 && (
+          <>
+            <h3>Idiomas</h3>
+            <hr />
+            <InfoItem items={languages} />
+          </>
+        )}
       </div>
       <hr />
     </div>

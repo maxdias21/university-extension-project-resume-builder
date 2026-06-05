@@ -3,59 +3,52 @@ import { useState } from 'react';
 import styles from './App.module.css';
 
 import Resume from './components/Resume';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
-
-import Input from './ui/Input';
-import Label from './ui/Label';
-import FormField from './components/FormField';
+import Accordion from './components/Accordion';
+import PersonDetailsForm from './components/PersonDetailsForm';
+import HabilitiesForm from './components/HabilitiesForm';
+import LanguagesForm from './components/LanguagesForm';
 
 function App() {
-  const [name, setName] = useState({ value: '', maxLength: 70, minLength: 2 });
+  const [name, setName] = useState({
+    value: '',
+    maxLength: 70,
+    minLength: 2,
+  });
+
   const [email, setEmail] = useState({
-    name: 'email',
     value: '',
     maxLength: 50,
     minLength: 2,
   });
+
   const [phone, setPhone] = useState({
     value: '',
     maxLength: 20,
     minLength: 20,
   });
+
   const [address, setAddress] = useState({
     value: '',
     maxLength: 100,
     minLength: 10,
   });
+
   const [skills, setSkills] = useState([]);
   const [ability, setAbility] = useState('');
-  const [level, setLevel] = useState('1');
-  const [showTips, setShowTips] = useState(false);
 
   const [languages, setLanguages] = useState([]);
   const [language, setLanguage] = useState('');
-  const [levelLanguage, setLevelLanguage] = useState('1');
 
   function handleChangeLanguages() {
-    setLanguages((prevState) => [
-      ...prevState,
-      { language: language, level: levelLanguage },
-    ]);
+    setLanguages((prevState) => [...prevState, { value: language }]);
 
     setLanguage('');
-    setLevelLanguage('1');
   }
 
   function handleChangeSkills() {
-    setSkills((prevState) => [
-      ...prevState,
-      { ability: ability, level: level },
-    ]);
+    setSkills((prevState) => [...prevState, { value: ability }]);
 
     setAbility('');
-    setLevel('1');
   }
 
   function handleChange(e, setField) {
@@ -68,143 +61,56 @@ function App() {
 
       return {
         ...prevState,
-        value: value,
+        value,
       };
     });
   }
 
-  const isActive = ability.length > 2 && ability.length < 20;
-  const isActiveLanguage = language.length > 2 && language.length < 20;
-
   return (
-    <div class={styles.container}>
-      <div class={styles.containerDetails}>
-        <div class={styles.containerDetails}>
-          <FormField
-            id="name"
-            name="Nome"
-            value={name.value}
-            handle={(e) => handleChange(e, setName)}
+    <div className={styles.container}>
+      <div className={styles.containerDetails}>
+        <Accordion title="Detalhes Pessoais">
+          <PersonDetailsForm
+            name={{
+              value: name.value,
+              handle: (e) => handleChange(e, setName),
+            }}
+            email={{
+              value: email.value,
+              handle: (e) => handleChange(e, setEmail),
+            }}
+            phone={{
+              value: phone.value,
+              handle: (e) => handleChange(e, setPhone),
+            }}
+            address={{
+              value: address.value,
+              handle: (e) => handleChange(e, setAddress),
+            }}
           />
-          <FormField
-            id="email"
-            name="Email"
-            value={email.value}
-            handle={(e) => handleChange(e, setEmail)}
+        </Accordion>
+
+        <hr />
+
+        <Accordion title="Habilidades">
+          <HabilitiesForm
+            value={ability}
+            handleField={(e) => setAbility(e.target.value)}
+            handleButton={handleChangeSkills}
           />
-          <FormField
-            id="phone"
-            name="Telefone"
-            value={phone.value}
-            handle={(e) => handleChange(e, setPhone)}
+        </Accordion>
+        <hr />
+
+        <Accordion title="Idiomas">
+          <LanguagesForm
+            value={language}
+            handleField={(e) => setLanguage(e.target.value)}
+            handleButton={handleChangeLanguages}
           />
-          <FormField
-            id="address"
-            name="Endereço"
-            value={address.value}
-            handle={(e) => handleChange(e, setAddress)}
-          />
-          <hr />
-          <div className={styles.abilityContent}>
-            <FormField
-              id="ability"
-              name="Habilidade"
-              value={ability}
-              handle={(e) => setAbility(e.target.value)}
-            />
-
-            <div className={styles.wrapper}>
-              <select value={level} onChange={(e) => setLevel(e.target.value)}>
-                <option value="1">Iniciante</option>
-                <option value="2">Conhecimento Básico</option>
-                <option value="3">Intermediário</option>
-                <option value="4">Avançado</option>
-                <option value="5">Especialista</option>
-              </select>
-
-              <p className={styles.tips} onClick={() => setShowTips(!showTips)}>
-                Mostrar dicas ⬇
-              </p>
-            </div>
-
-            {showTips && (
-              <div>
-                <ul>
-                  <li>
-                    <strong>Letra maiúscula:</strong> Comece sempre cada
-                    habilidade com a primeira letra maiúscula (ex: React,
-                    Excel).
-                  </li>
-                  <li>
-                    <strong>Foco na vaga:</strong> Coloque apenas as habilidades
-                    que fazem sentido para o cargo que você quer.
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            <button
-              className={`${isActive ? styles.enabled : styles.disabled} ${styles.button}`}
-              onClick={handleChangeSkills}
-            >
-              Adicionar habilidade
-            </button>
-          </div>
-
-          <hr />
-
-          <div className={styles.abilityContent}>
-            <FormField
-              id="language"
-              name="Idioma"
-              value={language}
-              handle={(e) => setLanguage(e.target.value)}
-            />
-
-            <div className={styles.wrapper}>
-              <select
-                value={levelLanguage}
-                onChange={(e) => setLevelLanguage(e.target.value)}
-              >
-                <option value="1">Iniciante</option>
-                <option value="2">Conhecimento Básico</option>
-                <option value="3">Intermediário</option>
-                <option value="4">Avançado</option>
-                <option value="5">Especialista</option>
-              </select>
-
-              <p className={styles.tips} onClick={() => setShowTips(!showTips)}>
-                Mostrar dicas ⬇
-              </p>
-            </div>
-
-            {showTips && (
-              <div>
-                <ul>
-                  <li>
-                    <strong>Letra maiúscula:</strong> Comece sempre cada
-                    habilidade com a primeira letra maiúscula (ex: React,
-                    Excel).
-                  </li>
-                  <li>
-                    <strong>Foco na vaga:</strong> Coloque apenas as habilidades
-                    que fazem sentido para o cargo que você quer.
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            <button
-              className={`${isActiveLanguage ? styles.enabled : styles.disabled} ${styles.button}`}
-              onClick={handleChangeLanguages}
-            >
-              Adicionar idioma
-            </button>
-          </div>
-        </div>
+        </Accordion>
       </div>
 
-      <div class={styles.containerResume}>
+      <div className={styles.containerResume}>
         <Resume
           name={name}
           email={email}
