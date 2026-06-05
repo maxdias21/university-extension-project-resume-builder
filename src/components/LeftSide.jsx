@@ -16,46 +16,50 @@ function LeftSide({ name, email, phone, address, skills, languages }) {
   return (
     <div class={styles.left}>
       <HeaderDetail name={name} />
-      <div class={styles.wrapper}>
-        <h3>Detalhes pessoais</h3>
-        <hr />
+      {(name.value.length > 0 ||
+        email.value.length > 0 ||
+        phone.value.length > 0 ||
+        address.value.length > 0) && (
+        <div className={styles.wrapper}>
+          <h3>Detalhes pessoais</h3>
+          <hr />
 
-        <div className={styles.contentPerson}>
-          {name.value.length > 0 && (
-            <PersonDetails field={name} icon={faUser} />
-          )}
-          {email.value.length > 0 && (
-            <PersonDetails field={email} icon={faEnvelope} />
-          )}
-          {phone.value.length > 0 && (
-            <PersonDetails field={phone} icon={faPhone} />
-          )}
-          {address.value.length > 0 && (
-            <PersonDetails field={address} icon={faLocationDot} />
-          )}
+          <div className={styles.contentPerson}>
+            {name.value.length > 0 && (
+              <PersonDetails field={name} icon={faUser} />
+            )}
+            {email.value.length > 0 && (
+              <PersonDetails field={email} icon={faEnvelope} />
+            )}
+            {phone.value.length > 0 && (
+              <PersonDetails field={phone} icon={faPhone} />
+            )}
+            {address.value.length > 0 && (
+              <PersonDetails field={address} icon={faLocationDot} />
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div class={styles.wrapper}>
-        {skills.length > 0 && (
+      {skills.length > 0 && (
+        <div className={styles.wrapper}>
           <>
             <h3>Habilidades</h3>
             <hr />
             <InfoItem items={skills} />
           </>
-        )}
-      </div>
-
-      <div class={styles.wrapper}>
-        {languages.length > 0 && (
-          <>
+        </div>
+      )}
+      {languages.length > 0 && (
+        <>
+          <div className={styles.wrapper}>
             <h3>Idiomas</h3>
             <hr />
             <InfoItem items={languages} />
-          </>
-        )}
-      </div>
-      <hr />
+          </div>
+          <hr />
+        </>
+      )}
     </div>
   );
 }

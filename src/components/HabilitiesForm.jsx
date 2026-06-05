@@ -1,6 +1,6 @@
 import FormField from './FormField';
 
-import styles from './HabilitiesForm.module.css';
+import styles from './Form.module.css';
 
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ function HabilitiesForm({ value, handleField, handleButton }) {
   const isActive = value.length > 2 && value.length < 20;
 
   return (
-    <div className={styles.abilityContent}>
+    <div className={styles.content}>
       <FormField
         id="ability"
         name="ability"

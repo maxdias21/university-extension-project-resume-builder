@@ -103,6 +103,7 @@ function App() {
 
         <Accordion title="Idiomas">
           <LanguagesForm
+            languages={languages}
             value={language}
             handleField={(e) => setLanguage(e.target.value)}
             handleButton={handleChangeLanguages}

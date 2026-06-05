@@ -1,0 +1,76 @@
+.enabled {
+  cursor: pointer;
+}
+
+.enabled:hover {
+  background-color: rgb(68, 109, 255);
+  transition: 0.3s background-color ease-in-out;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.button {
+  padding: 10px;
+  border-radius: 15px;
+  color: white;
+  border: none;
+  outline: 1px solid rgb(48, 48, 255);
+  background-color: rgb(34, 79, 241);
+}
+
+.content {
+  display: grid;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+
+  input,
+  select {
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(200, 182, 185, 0.553);
+    outline: none;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  select {
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(200, 182, 185, 2);
+    outline: none;
+    padding: 10px;
+  }
+}
+
+.languageListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.languageList {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  svg {
+    color: red;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.3);
+    }
+  }
+}
