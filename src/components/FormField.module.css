@@ -3,3 +3,8 @@
   flex-direction: column;
   gap: 7px;
 }
+
+.tips {
+  color: green;
+  font-size: 0.7rem;
+}

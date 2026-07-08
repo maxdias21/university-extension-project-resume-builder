@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import styles from './App.module.css';
 
@@ -7,6 +7,10 @@ import Accordion from './components/Accordion';
 import PersonDetailsForm from './components/PersonDetailsForm';
 import HabilitiesForm from './components/HabilitiesForm';
 import LanguagesForm from './components/LanguagesForm';
+import AcademicForm from './components/AcademicForm';
+import ExperienceForm from './components/ExperienceForm';
+
+import generatePDF, { Resolution } from 'react-to-pdf';
 
 function App() {
   const [name, setName] = useState({
@@ -24,13 +28,28 @@ function App() {
   const [phone, setPhone] = useState({
     value: '',
     maxLength: 20,
-    minLength: 20,
+    minLength: 7,
   });
 
   const [address, setAddress] = useState({
     value: '',
     maxLength: 100,
-    minLength: 10,
+    minLength: 5,
+  });
+  const [dateOfBirth, setDateOfBirth] = useState({
+    value: '',
+    maxLength: 100,
+    minLength: 2,
+  });
+  const [site, setSite] = useState({
+    value: '',
+    maxLength: 100,
+    minLength: 2,
+  });
+  const [linkedin, setLinkedin] = useState({
+    value: '',
+    maxLength: 100,
+    minLength: 2,
   });
 
   const [skills, setSkills] = useState([]);
@@ -39,32 +58,60 @@ function App() {
   const [languages, setLanguages] = useState([]);
   const [language, setLanguage] = useState('');
 
-  function handleChangeLanguages() {
-    setLanguages((prevState) => [...prevState, { value: language }]);
+  const [experience, setExperience] = useState({
+    position: '',
+    company: '',
+    city: '',
+    startDate: '',
+    endDate: '',
+    isValid: false,
+  });
 
-    setLanguage('');
-  }
+  const [experiences, setExperiences] = useState([]);
 
-  function handleChangeSkills() {
-    setSkills((prevState) => [...prevState, { value: ability }]);
+  const [academic, setAcademic] = useState({
+    academic: '',
+    institution: '',
+    city: '',
+    startDate: '',
+    endDate: '',
+    isValid: false,
+  });
+  const [academics, setAcademics] = useState([]);
 
-    setAbility('');
-  }
-
-  function handleChange(e, setField) {
+  function handleFields(e, set, name) {
     const value = e.target.value;
 
-    setField((prevState) => {
-      if (value.length > prevState.maxLength) {
-        return prevState;
-      }
+    set((prevState) => {
+      const newState = {
+        ...prevState,
+        [name]: value,
+      };
+
+      const isValid = Object.entries(newState)
+        .filter(([key]) => key !== 'isValid')
+        .every(([, value]) => value.trim() !== '');
 
       return {
-        ...prevState,
-        value,
+        ...newState,
+        isValid,
       };
     });
   }
+
+  function handleChange(setArray, setField, value) {
+    setArray((prevState) => [...prevState, { value }]);
+
+    setField('');
+  }
+
+  function handleField(e, set) {
+    const value = e.target.value;
+
+    set((prevState) => ({ ...prevState, value: value }));
+  }
+
+  const targetRef = useRef();
 
   return (
     <div className={styles.container}>
@@ -73,19 +120,31 @@ function App() {
           <PersonDetailsForm
             name={{
               value: name.value,
-              handle: (e) => handleChange(e, setName),
+              handle: (e) => handleField(e, setName),
             }}
             email={{
               value: email.value,
-              handle: (e) => handleChange(e, setEmail),
+              handle: (e) => handleField(e, setEmail),
             }}
             phone={{
               value: phone.value,
-              handle: (e) => handleChange(e, setPhone),
+              handle: (e) => handleField(e, setPhone),
             }}
             address={{
               value: address.value,
-              handle: (e) => handleChange(e, setAddress),
+              handle: (e) => handleField(e, setAddress),
+            }}
+            dateOfBirth={{
+              value: dateOfBirth.value,
+              handle: (e) => handleField(e, setDateOfBirth),
+            }}
+            site={{
+              value: site.value,
+              handle: (e) => handleField(e, setSite),
+            }}
+            linkedin={{
+              value: linkedin.value,
+              handle: (e) => handleField(e, setLinkedin),
             }}
           />
         </Accordion>
@@ -96,7 +155,7 @@ function App() {
           <HabilitiesForm
             value={ability}
             handleField={(e) => setAbility(e.target.value)}
-            handleButton={handleChangeSkills}
+            handleButton={() => handleChange(setSkills, setAbility, ability)}
           />
         </Accordion>
         <hr />
@@ -106,12 +165,51 @@ function App() {
             languages={languages}
             value={language}
             handleField={(e) => setLanguage(e.target.value)}
-            handleButton={handleChangeLanguages}
+            handleButton={() =>
+              handleChange(setLanguages, setLanguage, language)
+            }
+          />
+        </Accordion>
+
+        <hr />
+
+        <Accordion title="Experiências">
+          <ExperienceForm
+            value={experience}
+            set={setExperience}
+            handleField={handleFields}
+            handleButton={() =>
+              handleChange(setExperiences, setExperience, experience)
+            }
+            isValid={experience.isValid}
+          />
+        </Accordion>
+        <hr />
+
+        <Accordion title="Formação">
+          <AcademicForm
+            value={academic}
+            set={setAcademic}
+            handleField={handleFields}
+            handleButton={() =>
+              handleChange(setAcademics, setAcademic, academic)
+            }
+            isValid={academic?.isValid}
           />
         </Accordion>
       </div>
 
-      <div className={styles.containerResume}>
+      <button
+        onClick={() =>
+          generatePDF(targetRef, {
+            filename: 'Curriculo.pdf',
+            resolution: Resolution.HIGH,
+          })
+        }
+      >
+        Gerar PDF
+      </button>
+      <div className={styles.containerResume} ref={targetRef}>
         <Resume
           name={name}
           email={email}
@@ -119,6 +217,11 @@ function App() {
           address={address}
           skills={skills}
           languages={languages}
+          dateOfBirth={dateOfBirth}
+          site={site}
+          linkedin={linkedin}
+          academics={academics}
+          experiences={experiences}
         />
       </div>
     </div>

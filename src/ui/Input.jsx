@@ -1,8 +1,14 @@
 import styles from './Input.module.css';
 
-function Input({ value, handle, id }) {
+function Input({ value, handle, id, placeholderTips }) {
   return (
-    <input id={id} className={styles.input} value={value} onChange={handle} />
+    <input
+      placeholder={placeholderTips}
+      id={id}
+      className={styles.input}
+      value={value}
+      onChange={handle}
+    />
   );
 }
 

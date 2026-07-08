@@ -3,14 +3,12 @@
   gap: 20px;
   display: flex;
   flex-direction: column;
-  border: 5px solid black;
   min-width: 0;
   flex-shrink: 0;
 }
 
 .right {
   grid-area: right;
-  border: 1px solid red;
 }
 
 .contentPerson {

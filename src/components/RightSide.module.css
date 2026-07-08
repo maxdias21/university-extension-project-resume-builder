@@ -1,0 +1,25 @@
+.right {
+  padding: 20px;
+}
+
+.h2 {
+  color: #395a86;
+  font-size: 1.4rem;
+}
+
+.container {
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}

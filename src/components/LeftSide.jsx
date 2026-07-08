@@ -1,42 +1,46 @@
-import {
-  faEnvelope,
-  faPhone,
-  faUser,
-  faLocationDot,
-  faCircle,
-} from '@fortawesome/free-solid-svg-icons';
-
 import styles from './LeftSide.module.css';
 
 import HeaderDetail from './uiLeftSide/HeaderDetail';
 import PersonDetails from './uiLeftSide/PersonDetails';
 import InfoItem from './uiLeftSide/InfoItem';
 
-function LeftSide({ name, email, phone, address, skills, languages }) {
+function LeftSide({
+  name,
+  email,
+  phone,
+  address,
+  skills,
+  languages,
+  dateOfBirth,
+  site,
+  linkedin,
+}) {
   return (
     <div class={styles.left}>
       <HeaderDetail name={name} />
       {(name.value.length > 0 ||
         email.value.length > 0 ||
         phone.value.length > 0 ||
-        address.value.length > 0) && (
+        address.value.length > 0 ||
+        dateOfBirth.value.length > 0 ||
+        linkedin.value.length > 0 ||
+        site.value.length > 0) && (
         <div className={styles.wrapper}>
           <h3>Detalhes pessoais</h3>
           <hr />
 
           <div className={styles.contentPerson}>
-            {name.value.length > 0 && (
-              <PersonDetails field={name} icon={faUser} />
+            {name.value.length > 0 && <PersonDetails field={name} />}
+            {email.value.length > 0 && <PersonDetails field={email} />}
+            {phone.value.length > 0 && <PersonDetails field={phone} />}
+            {address.value.length > 0 && <PersonDetails field={address} />}
+            {dateOfBirth.value.length > 0 && (
+              <PersonDetails field={dateOfBirth} />
             )}
-            {email.value.length > 0 && (
-              <PersonDetails field={email} icon={faEnvelope} />
-            )}
-            {phone.value.length > 0 && (
-              <PersonDetails field={phone} icon={faPhone} />
-            )}
-            {address.value.length > 0 && (
-              <PersonDetails field={address} icon={faLocationDot} />
-            )}
+
+            {site.value.length > 0 && <PersonDetails field={site} />}
+
+            {linkedin.value.length > 0 && <PersonDetails field={linkedin} />}
           </div>
         </div>
       )}

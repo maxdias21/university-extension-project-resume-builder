@@ -1,24 +1,11 @@
-.img {
-  /* Layout */
-  position: absolute;
-  left: 0;
-
-  /* Dimensões */
-  padding-right: 20px;
-}
-
 .content {
   /* Layout */
-  position: relative;
 
   /* Dimensões */
   padding-left: 0;
 }
 
 .text {
-  /* Dimensões */
-  margin-left: 25px;
-
   /* Texto */
   word-break: break-all;
 }
